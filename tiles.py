@@ -106,5 +106,3 @@ class Grid(object):
 
 if __name__ == "__main__":
     grid = Grid((10, 10))
-    
-    
