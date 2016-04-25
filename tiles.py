@@ -1,4 +1,5 @@
 import math
+import life
 
 class Tile(object):
     '''
@@ -48,8 +49,8 @@ class Grid(object):
 
     #Returns a sub-grid of neighbors
     def getGridNeighbors(self, coord, dist=1):
-        grid = [row[max(0, coord[0]-dist):coord[0]+dist+1] for row in self.grid[max(0, coord[1]-1):coord[1]+dist+1]]
-        return Grid(None,grid)
+        subGrid = [row[max(0, coord[0]-dist):coord[0]+dist+1] for row in self.grid[max(0, coord[1]-1):coord[1]+dist+1]]
+        return Grid(None,subGrid)
 
     def getDistanceTiles(self, coords1, coords2):
         xSquare = (float(coords1[0])-float(coords2[0]))**2
@@ -71,7 +72,16 @@ class Grid(object):
             if i != coords:
                 ans += [self.getDistanceTiles(coords, i),]
                 ans1 += i
-        return [ans, ans1]       
+        return [ans, ans1]
+
+    def getDistanceFrequencies(self, coords, ID, distance):
+        choices = self.types[ID]
+        a = 0
+        for i in choices:
+            if i != coords:
+                if self.getDistanceTiles(coords, i) == 1.0:
+                    a += 1
+        return a
 
     def calcTypePos(self):
         self.types = {}
@@ -106,3 +116,4 @@ class Grid(object):
 
 if __name__ == "__main__":
     grid = Grid((10, 10))
+    
